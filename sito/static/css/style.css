@@ -1,0 +1,63 @@
+#logo {
+    color: deepskyblue;
+    font-family: fantasy;
+    margin-top: 30px;
+}
+
+.times {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#scopri {
+    color: #fff;
+    text-shadow: #333 2px 2px 10px;
+    padding: 11px 30px 10px 30px;
+    background: transparent;
+    margin-top: 22px;
+    border: 1px solid #fff;
+}
+
+#scopri:hover, #scopri:active {
+    background-color: white;
+    color: black;
+}
+
+
+.header-right {
+    float: right;
+    
+}
+
+.header {
+    overflow: hidden;
+    padding:10px 5px;
+    flex-wrap: wrap;
+}
+  
+.logo {
+    float: left;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px; 
+    line-height: 0px;
+    font-size: 25px;
+    font-weight: bold;
+    border-bottom: none;
+    align-items: center;
+}
+
+
+.header-right {
+    float: right;
+}
+
+.display-middle {
+    position:absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    -ms-transform:translate(-50%,-50%);
+    width: 100%;
+    background-color: white;
+}
+
