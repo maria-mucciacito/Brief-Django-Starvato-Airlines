@@ -16,15 +16,15 @@ class Airport(models.Model):
     gps_code = models.IntegerField()
     iata_code = models.CharField(max_length=30)
     local_code = models.CharField(max_length=30)
-    cap = models.IntegerField(default=43534)
-    country = models.CharField(max_length=100, default='Italy')
-    city = models.CharField(max_length=100, default='Milano')
-    address_line_1 = models.CharField(max_length=30, default='via')
-    address_line_2 = models.CharField(max_length=100, default='Roma')
-    address_line_3 = models.CharField(max_length=100, default='78')
+    cap = models.IntegerField()
+    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    address_line_1 = models.CharField(max_length=30)
+    address_line_2 = models.CharField(max_length=100)
+    address_line_3 = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.city
+        return self.name
 
 class Posto(models.Model):
     lettera = models.CharField(max_length=10)
@@ -103,5 +103,3 @@ class Prenotazione(models.Model):
     posto = models.ForeignKey('Posto', on_delete=models.SET_NULL, null=True)
     def __str__(self):
         return self.code_prenotazione
-
-
