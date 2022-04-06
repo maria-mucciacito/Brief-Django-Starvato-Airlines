@@ -24,7 +24,7 @@ class Airport(models.Model):
     address_line_3 = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.city
 
 class Posto(models.Model):
     lettera = models.CharField(max_length=10)

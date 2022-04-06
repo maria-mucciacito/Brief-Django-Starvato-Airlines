@@ -73,6 +73,12 @@
                     <td>{{aeroporto.address_line_1}}</td>
                     <td>{{aeroporto.address_line_2}}</td>
                     <td>{{aeroporto.address_line_3}}</td>
+                    <td>
+                        <a href="{% url 'update_aeroporto' aeroporto.id %}" class="btn btn-light btn-sm">Update</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_aeroporto' aeroporto.id %}" class="btn btn-light btn-sm">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
