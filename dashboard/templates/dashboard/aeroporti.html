@@ -20,16 +20,16 @@
         </div>
         <div class="col-sm-4 flex-end">
             <p>Clicca qui per inserire un nuovo aeroporto: </p>
-            <a href="#" class="btn btn-light">+ Insert</a>
+            <a href="{% url 'insert_aeroporto' %}" class="btn btn-light">+ Insert</a>
         </div>
     </div>
-    <div class="container-fluid">
-        <table class="table table-bordered table-sm text-white" style="width: 100%; align-items: center;">
+    <div class="container-fluid" >
+        <table class="table table-bordered table-sm text-white" style=" align-items: center;">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Identification</th>
-                    <th scope="col">Type of Airport</th>
+                    <th scope="col" style="width: 100px;">Type of Airport</th>
                     <th scope="col">Name</th>
                     <th scope="col">Latitude</th>
                     <th scope="col">Longitude</th>

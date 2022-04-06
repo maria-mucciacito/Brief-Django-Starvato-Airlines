@@ -87,7 +87,7 @@ DATABASES_POSTGRESQL = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'prova',
-        'USER': 'root',
+        'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'POST': '5432',
@@ -130,12 +130,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = "/"
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
 
 LOGIN_REDIRECT_URL = "/dashboard/"
 LOGIN_URL = '/login/'

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.template import context 
 from django.db.models import Q
@@ -23,11 +23,11 @@ def vista_aeroporti(request):
 def insert_aeroporto(request):
     form = AirportForm()
     if request.method == 'POST':
-        form = AirportForm(request:POST)
+        form = AirportForm(request.POST)
         if form.is_valid():
             form.save()
-             messages.success(request, 'Aeroporto registrato con successo!')
+            return redirect('dashboard/aeroporti')        
         else:
-            messages.error(request, 'Errore! Form non valido!')
+            messages.error(request, 'Errore! Form non valido.')
     context = {'form': form}
-    return render(request, 'dashboard/insert_aeroporto.html', context)
+    return render(request, 'dashboard/insert_aeroporto.html', context=context)
