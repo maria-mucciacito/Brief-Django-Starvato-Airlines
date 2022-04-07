@@ -13,7 +13,7 @@ def index(request):
     return render(request, 'sito/index.html',context)
 
 def visualizza_voli(request):
-    ls_voli = []
+    context = {}
     if request.method == 'POST':
         aeroporto_partenza = request.POST['partenze']
         aeroporto_arrivo = request.POST['arrivi']
@@ -27,6 +27,9 @@ def visualizza_voli(request):
         
         context = {
             'voli': voli,
+            'partenza': aeroporto_partenza,
+            'arrivo' : aeroporto_arrivo,
+            'data' : data,
         }
 
     else:

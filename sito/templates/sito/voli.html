@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,47 +10,108 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static '/css/stylesito.css' %}">
     <title>Voli</title>
+    <style>
+        #modifica:hover,
+        #modifica:active {
+            background-color: deepskyblue;
+            color: grey;
+        }
+
+        #modifica {
+            border-color: deepskyblue;
+            text-decoration: none;
+        }
+        cele{
+            background: linear-gradient(top right, #FFFFFF 0%, #AACFEF 100%);
+        }
+       
+    </style>
+
+
+
 </head>
 
-<body>
+<body style="background-color: whitesmoke;">
 
-    <div class="container m-3">
-        {% for volo in voli  %}
-            <div class="row m-3" style="width: 30%;"> 
-                <div class="card text-center">
-                    <div class="card-header">
-                        <span>Numero Volo: </span>{{volo.code_volo}}
-                    </div>
-                    <div class="card-body">
-                        <div class="row text-center">
-                            <div class="col-sm-6">
-                                <h5 class="card-title"> Da  {{volo.aeroporto_partenza}}</h5>
-                                <p class="card-text">{{volo.ora_partenza}}</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <h5 class="card-title">A  {{volo.aeroporto_arrivo}}</h5>
-                                <p class="card-text">{{volo.ora_arrivo}}</p>
-                            </div>
+    <div class="header py-0 times text-secondary" style="background-color: white;">
+        <nav class="navbar navbar-expand-sm border border-secondary">
+            <div class="container-fluid">
+                <a href="{% url 'home' %}" class=" d-flex navbar-brand text-decoration-none  align-items-middle">
+                    <img src="{% static 'media/logoexmp.jpeg' %}" width="150" height="70" class="">
+                    <span class="" id="logo"> Starvato Airlines</span>
+                </a>
+                <h2>{{partenza}}</h2><i class="bi bi-arrow-left-right"></i>
+                <h2>{{arrivo}}</h2><br>
+                <span>Sola Andata - {{data}} - 1 Adutlo</span>
+                <ul class="nav nav-tabs" style="border-bottom: none;">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" id="modifica" href="#">Modifica Scelta</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    {% for volo in voli %}
+    <div class="container-fluid  m-5" align="center">
+        <div class="row m-3" style="width: 70%;">
+            <div class="card text-center" >
+                <div class="card-header">
+                    <span>Numero Volo: </span>{{volo.code_volo}} <br>
+                    <span>Data: </span> {{volo.data_partenza}}
+                </div>
+                <div class="card-body">
+                    <div class="row text-center m-2">
+                        <div class="col-sm-5">
+                            <h5 class="card-title"> Da {{volo.aeroporto_partenza}}</h5>
+                            <p class="card-text">{{volo.ora_partenza}}</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <h5 class="card-title">A {{volo.aeroporto_arrivo}}</h5>
+                            <p class="card-text">{{volo.ora_arrivo}}</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="#" class="btn" style="background-color: deepskyblue;">Seleziona</a>
                         </div>
                     </div>
 
-                    <a href="#" class="btn btn-primary">Seleziona</a>
-                    </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>  
+        </div>
+
+    </div>
+    {% endfor %}
+    <!--<div class="card text-center" style="width: 60%;">
+        <div class="card-header">
+            Numero Volo 123
+            Data: 24/07/2022
+        </div>
+        <div class="card-body">
+            <div class="row m-2 text-center">
+                <div class="col-sm-6">
+                    <h5 class="card-title">Da Roma</h5>
+                    <p class="card-text">08:40</p>
+                </div>
+                <div class="col-sm-6">
+                    <h5 class="card-title">A Milano</h5>
+                    <p class="card-text">10:30</p>
+                </div>
+            </div>
+            <div class="row m-2 text-center">
+                <a href="#" class="btn btn-primary">Seleziona</a>
+            </div>
+        </div>-->
 
 
 
 
 
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
