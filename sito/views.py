@@ -18,6 +18,9 @@ def visualizza_voli(request):
         aeroporto_partenza = request.POST['partenze']
         aeroporto_arrivo = request.POST['arrivi']
         data = request.POST['data']
+        classe = request.POST['classe']
+        adulti = request.POST['adulti']
+        bambini = request.POST['bambini']
         partenza = Airport.objects.get(city=aeroporto_partenza)
         arrivo = Airport.objects.get(city=aeroporto_arrivo)
 
@@ -30,11 +33,24 @@ def visualizza_voli(request):
             'partenza': aeroporto_partenza,
             'arrivo' : aeroporto_arrivo,
             'data' : data,
+            'classe': classe,
+            'adulti': adulti,
+            'bambini': bambini,
         }
 
     else:
         messages.error(request, 'Non ci sono voli disponibili!')
     
     return render(request,'sito/voli.html',context)
+
+def seleziona(request,pk,adulti,classe):
+    volo = Fly.objects.get(id=pk)
+    context = {
+        'volo': volo,
+        'classe': classe,
+        'adulti': adulti,
+    }
+    return render(request, 'sito/prenotazione.html', context)
+
 
 

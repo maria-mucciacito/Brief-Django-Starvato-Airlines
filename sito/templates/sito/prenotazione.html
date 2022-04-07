@@ -11,7 +11,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static '/css/stylesito.css' %}">
-    <title>Voli</title>
+    <title>Prenotazione</title>
     <style>
         #modifica:hover,
         #modifica:active {
@@ -23,17 +23,14 @@
             border-color: deepskyblue;
             text-decoration: none;
         }
-        cele{
+
+        cele {
             background: linear-gradient(top right, #FFFFFF 0%, #AACFEF 100%);
         }
-       
     </style>
-
-
-
 </head>
 
-<body style="background-color: aliceblue;">
+<body>
 
     <div class="header py-0 times text-secondary" style="background-color: white;">
         <nav class="navbar navbar-expand-sm border">
@@ -42,9 +39,9 @@
                     <img src="{% static 'media/logoexmp.jpeg' %}" width="150" height="70" class="">
                     <span class="" id="logo"> Starvato Airlines</span>
                 </a>
-                <h2>{{partenza}}</h2><i class="bi bi-arrow-left-right"></i>
-                <h2>{{arrivo}}</h2><br>
-                <span>Sola Andata - {{data}} - {{adulti}} Adutlo</span>
+                <h2>{{volo.aeroporto_partenza.city}}</h2><i class="bi bi-arrow-left-right"></i>
+                <h2>{{volo.aeroporto_arrivo.city}}</h2><br>
+                <span>Sola Andata - {{volo.data_partenza}} - 1 Adutlo</span>
                 <ul class="nav nav-tabs" style="border-bottom: none;">
                     <li class="nav-item">
                         <a class="nav-link text-secondary" id="modifica" href="#">Modifica Scelta</a>
@@ -54,45 +51,35 @@
         </nav>
     </div>
 
-    {% for volo in voli %}
-    <div class="container-fluid  m-5" align="center">
-        <div class="row m-3" style="width: 70%;">
-            <div class="card text-center" >
-                <div class="card-header" style="background-color: #AACFEF;">
-                    <span>Numero Volo: </span>{{volo.code_volo}} <br>
-                    <span>Data: </span> {{volo.data_partenza}}
-                </div>
-                <div class="card-body">
-                    <div class="row text-center m-2">
-                        <div class="col-sm-5">
-                            <h5 class="card-title"> Da {{volo.aeroporto_partenza}}</h5>
-                            <p class="card-text">{{volo.ora_partenza}}</p>
-                        </div>
-                        <div class="col-sm-5">
-                            <h5 class="card-title">A {{volo.aeroporto_arrivo}}</h5>
-                            <p class="card-text">{{volo.ora_arrivo}}</p>
-                        </div>
-                        <div class="col-sm-2">
-                            <a href="{% url 'seleziona' volo.id adulti classe %}" class="btn" style="background-color: #AACFEF;">Seleziona</a>
-                        </div>
+    <div class="container m-5" style="width: 70%;">
+        <div class="card">
+            <h3 class="card-header">Riepilogo Biglietto</h3>
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-sm-2 mb-2">
+                        <span>Da </span> {{volo.aeroporto_partenza.city}} <span> alle </span> {{volo.ora_partenza}}
                     </div>
-
+                    <div class="col-sm-2 mb-2">
+                        <span>A </span> {{volo.aeroporto_arrivo.city}} <span> alle </span> {{volo.ora_arrivo}}
+                    </div>
                 </div>
+                <p class="card-text"> <span>Classe </span> {{classe}}     - {{adulti}} <span> Adulti</span></p>
+            </div>
+            <div class="card-footer text-muted">
+                <span>Data </span>   {{volo.data_partenza}}<br>
+                <span>Prezzo   25.00$</span>
             </div>
         </div>
-
     </div>
-    {% endfor %}
 
 
 
 
 
 
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
