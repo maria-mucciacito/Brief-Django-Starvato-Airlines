@@ -34,9 +34,6 @@
 
     <p>{{message}}</p>
 
-    <form method="post" action="">
-        {% csrf_token %}
-
         <div class="header py-0 times text-secondary" style="background-color: white;">
             <nav class="navbar navbar-expand-sm border">
                 <div class="container-fluid">
@@ -108,19 +105,19 @@
                 <div class="card-body">
                     <div class="row m-3">
                         <div class="col-sm-4">
-                            <span>Name </span>
+                            <span>Name:  {{name}}</span> 
 
                         </div>
                         <div class="col-sm-4">
-                            <span>Last Name</span>
+                            <span>Last Name:  {{lastname}}</span>
                         </div>
                     </div>
                     <div class="row m-3">
-                        <div class="col-sm-5 ">
-                            <span>Email</span>
+                        <div class="col-sm-4 ">
+                            <span>Email:  {{email}}</span>
                         </div>
-                        <div class="col-sm-3">
-                            <span>Telefono</span>
+                        <div class="col-sm-4">
+                            <span>Telefono:  {{telefono}}</span>
                         </div>
                     </div>
 
@@ -132,32 +129,11 @@
 
             <button class="btn btn-primary" type="submit">Scegli</button>
         </div>
+        {{lettera}}
 
 
 
 
-        <script>
-            let id_volo = '{{volo.id}}';
-            id_volo = parseInt(id_volo);
-
-            const API_PREN = 'http://localhost:8000/apiprenotazione/';
-            fetch(API_PREN)
-                .then(response => response.json())
-                .then(data => {
-
-                    let posti_prenotati = '';
-                    for (let i = 0; i < data.length; i++) {
-                        if (data[i].volo == id_volo) {
-                            posti_prenotati += data[i].posto.lettera + (data[i].posto.numero).toString() + ',';
-                        }
-                    }
-
-                    posti_prenotati = posti_prenotati.split(',');
-                    GeneraPosti(id_volo, posti_prenotati);
-                })
-                .catch(err => console.log(err));
-
-        </script>
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

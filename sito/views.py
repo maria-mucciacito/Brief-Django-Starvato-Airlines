@@ -92,27 +92,15 @@ def seleziona_posto(request,pk,adulti,classe):
     volo = Fly.objects.get(id=pk)
     form_posto = PostoForm()
     form_utente = UtentForm()
+   
+        
     context = {
         'volo': volo,
         'classe': classe,
         'adulti': adulti,
+        'form_posto': form_posto,
+        'form_utente': form_utente
     }
-    if request.method == 'POST':
-        form_posto = PostoForm(request.POST)
-        form_utente = UtentForm(request.POST)
-        if (form_posto.is_valid() & form_utente.is_valid()):
-            form_posto.save()
-            form_utente.save()
-            context['numero'] = request.POST['numero']
-            context['lettera'] = request.POST['lettera']
-            context['classe'] = request.POST['classe']
-            return redirect('/prenotazione/')
-
-        else:
-            context['message'] = 'Errore!'
-        
-    context['form_posto'] = form_posto
-    context['form_utente'] = form_utente
     return render(request, 'sito/postieutente.html', context)
 
 def cerca_prenotazione(request):
@@ -138,9 +126,37 @@ def cerca_prenotazione(request):
 
 
 
-def prenota(request,pk_volo, pk_posto, pk_utent):
+def riepilogo(request):
+    context = {}
+    if request.method == 'POST':
+        name = request.POST['name']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+        telefono = request.POST['telefono']
+        lettera = request.POST.get('lettera', '')
+        numero = request.POST.get('numero', '')
+        classet = request.POST.get('classe', '')
+        id_volo = request.POST.get('id_volo', '')
+        adulti = request.POST.get('adulti', '')
+    
+    
+        volo = Fly.objects.get(id=id_volo)
+        context = {
+            'volo': volo,
+            'name': name,
+            'lastname': lastname,
+            'email':email, 
+            'telefono': telefono,
+            'lettera': lettera,
+            'numero': numero,
+            'classe': classet,
+            'adulti':adulti,
+        }
 
-    return render(request, 'sito/prenotazione.html')
+    else:
+        context['message'] = 'Errore!'
+
+    return render(request, 'sito/prenotazione.html',context)
     
 
 '''send_mail(
@@ -148,4 +164,17 @@ def prenota(request,pk_volo, pk_posto, pk_utent):
                 'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti',
                 'starvatoairlines@example.com',
                 [request.POST['email']],
-            )'''
+            )
+
+    if request.method == 'POST':
+        form_posto = PostoForm(request.POST)
+        form_utente = UtentForm(request.POST)
+        if (form_posto.is_valid() & form_utente.is_valid()):
+            form_posto.save()
+            form_utente.save()
+            return redirect('/prenotazione/')
+            
+
+        else:
+            context['message'] = 'Errore!'
+            '''

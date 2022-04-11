@@ -20,6 +20,6 @@ urlpatterns = [
     path('imieivoli/', views.cerca_prenotazione, name='cerca_prenotazione'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api', include(router.urls)),
-    path('prenotazione/<int:pk_volo>/<int:pk_posto>/<int:pk_utent>/', views.prenota, name='prenota')
+    path('prenotazione/', views.riepilogo, name='riepilogo'),
     
 ]

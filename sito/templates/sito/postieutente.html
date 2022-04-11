@@ -31,8 +31,7 @@
 </head>
 
 <body class="cele">
-
-    <form method="post" action="">
+    <form method="post" action="{% url 'riepilogo' %}">
         {% csrf_token %}
 
         <div class="header py-0 times text-secondary" style="background-color: white;">
@@ -89,7 +88,7 @@
                     <div class="row m-3">
                         <div class="col-sm-8">
                             {% block posti %}
-                                {% include 'partials/_posti.html' %}
+                            {% include 'partials/_posti.html' %}
                             {% endblock %}
                         </div>
                         <div class="col-sm-4 times mt-3">
@@ -110,7 +109,7 @@
                                 <p class="mt-2" id="posto">
 
                                 </p>
-                                <p class="mt-5" style="display: none;">
+                                <p class="mt-5 d-none">
                                     {{form_posto.lettera}}
                                     {{form_posto.numero}}
                                     {{form_posto.classe}}
@@ -128,40 +127,41 @@
             <div class="card">
                 <h3 class="card-header">Dati Passeggero</h3>
                 <div class="card-body">
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <div class="row m-3">
-                            <div class="col-sm-4">
-                                <label for="name" class="form-label">Name</label>
-                                {{form_utente.name}}
-                            </div>
-                            <div class="col-sm-4">
-                                <label for="lastname" class="form-label">Last Name</label>
-                                {{form_utente.lastname}}
-                            </div>
+
+                    <div class="row m-3">
+                        <div class="col-sm-4">
+                            <label for="name" class="form-label">Name</label>
+                            {{form_utente.name}}
                         </div>
-                        <div class="row m-3">
-                            <div class="col-sm-5 ">
-                                <label for="email" class="form-label">Email</label>
-                                {{form_utente.email}}
-                            </div>
-                            <div class="col-sm-3">
-                                <label for="telefono" class="form-label">Telefono</label>
-                                {{form_utente.telefono}}
-                            </div>
+                        <div class="col-sm-4">
+                            <label for="lastname" class="form-label">Last Name</label>
+                            {{form_utente.lastname}}
                         </div>
+                    </div>
+                    <div class="row m-3">
+                        <div class="col-sm-5 ">
+                            <label for="email" class="form-label">Email</label>
+                            {{form_utente.email}}
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="telefono" class="form-label">Telefono</label>
+                            {{form_utente.telefono}}
+                        </div>
+                        <div class="d-none">
+                            <input type="number" value="{{volo.id}}" name="id_volo">
+                            <input type="number" value="{{adulti}}" name="adulti">
+                        </div>
+                    </div>
 
                 </div>
             </div>
         </div>
 
         <div class="container m-5">
-
-            <button class="btn btn-primary" type="submit" >Avanti</button>
+            <button class="btn btn-primary" type="submit">Avanti</button>
         </div>
 
     </form>
-
 
 
 

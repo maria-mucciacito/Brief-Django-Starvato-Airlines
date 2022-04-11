@@ -48,7 +48,7 @@
             .then(data => {
                 let posti_prenotati = '';
                 for (let x = 0; x < data.length; x++) {
-                    console.log(data[0].volo.id, id_volo);
+    
                     if (data[x].volo.id == id_volo) {
                         posti_prenotati += data[x].posto.lettera + (data[x].posto.numero).toString() + ',' ;
                         
@@ -80,7 +80,7 @@
                         'tot_posti': (data.aircraft.posti_primaclasse + data.aircraft.posti_secondaclasse + data.aircraft.posti_economy),
                         'file': parseInt((data.aircraft.posti_primaclasse + data.aircraft.posti_secondaclasse + data.aircraft.posti_economy)/6)+1,
                     }
-                    
+                    console.log(content.posti_primaclasse);
                     for (let i = 1; i <= content.file; i++) {
                         document.getElementById('posti').append(Fila(i, content, posti_prenotati));
                     }
