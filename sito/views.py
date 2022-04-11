@@ -106,14 +106,6 @@ def seleziona_posto(request,pk,adulti,classe):
             context['numero'] = request.POST['numero']
             context['lettera'] = request.POST['lettera']
             context['classe'] = request.POST['classe']
-            send_mail(
-                'Starvato Airlines',
-                'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti',
-                'starvatoairlines@example.com',
-                request.POST['email'],
-            )
-
-
             return redirect('/prenotazione/')
 
         else:
@@ -146,24 +138,14 @@ def cerca_prenotazione(request):
 
 
 
-'''def prenota(request):
-    form = UtentForm()
-    content = {}
-    if request.method == 'POST':
-        form = UtentForm(request.POST)
-        if (form.is_valid()):
-            form.save()
-            send_mail(
+def prenota(request,pk_volo, pk_posto, pk_utent):
+
+    return render(request, 'sito/prenotazione.html')
+    
+
+'''send_mail(
                 'Starvato Airlines',
                 'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti',
                 'starvatoairlines@example.com',
-                request.POST['email'],
-            )
-
-        else:
-            content['message'] = 'Errore!'
-        
-    content['form'] = form
-    return render(request, 'sito/prenotazione.html', content)'''
-    
-
+                [request.POST['email']],
+            )'''
