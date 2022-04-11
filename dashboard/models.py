@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from dashboard.utils import make_uuid
 
 # Create your models here.
 class Airport(models.Model):
@@ -29,10 +30,11 @@ class Airport(models.Model):
 class Posto(models.Model):
     lettera = models.CharField(max_length=10)
     numero = models.IntegerField()
-    volo = models.ForeignKey('Fly', on_delete=models.SET_NULL, null=True, default='Volo')
+    classe = models.CharField(max_length=30, default='Economy')
+    
 
     def __str__(self):
-        return self.lettera + self.numero
+        return self.lettera
     
 class Fly(models.Model):
     code_volo = models.CharField(max_length=200, unique=True)
@@ -43,6 +45,7 @@ class Fly(models.Model):
     aeroporto_partenza = models.ForeignKey('Airport', on_delete=models.SET_NULL, related_name="a_partenza",default=-1,null=True)
     aeroporto_arrivo = models.ForeignKey('Airport', on_delete=models.SET_NULL, related_name="a_arrivo", default=-2,null=True)
     aircraft = models.ForeignKey('Aircraft', on_delete=models.SET_NULL, null=True)
+
 
     def __str__(self):
         return self.code_volo
@@ -97,7 +100,7 @@ class Utent(models.Model):
         return  self.lastname
 
 class Prenotazione(models.Model):
-    code_prenotazione = models.CharField(max_length=200, unique=True)
+    code_prenotazione = models.CharField(max_length=200, unique=True, default = make_uuid, editable = False)
     utente = models.ForeignKey('Utent', on_delete=models.SET_NULL, null=True )
     volo = models.ForeignKey('Fly', on_delete=models.SET_NULL, null=True )
     posto = models.ForeignKey('Posto', on_delete=models.SET_NULL, null=True)

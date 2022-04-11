@@ -16,66 +16,175 @@
 <body class="container">
 
 
-    <div class="conatiner w-25 h-25">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">A</th>
-                    <th scope="col">B</th>
-                    <th scope="col">C</th>
-                    <th scope="col">D</th>
-                    <th scope="col">E</th>
-                    <th scope="col">F</th>
-                </tr>
-            </thead>
-            <tbody id="posti">
-            </tbody>
-        </table>
-    </div>
+
+    <table class="table w-25 h-25">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">A</th>
+                <th scope="col">B</th>
+                <th scope="col">C</th>
+                <th scope="col">D</th>
+                <th scope="col">E</th>
+                <th scope="col">F</th>
+            </tr>
+        </thead>
+        <tbody id="posti">
+        </tbody>
+    </table>
+
 
 
     <script>
-        let numero_posti = 40;
-        let classe = 'prima';
-        let file = parseInt(40/6);
 
-         
-        for (let i = 1; i <= file; i++) {
-            document.getElementById('posti').append(fila(i));
+
+
+        let id_volo = '{{volo.id}}';
+        id_volo = parseInt(id_volo);
+
+        const API_PREN = 'http://localhost:8000/apiprenotazione/';
+        fetch(API_PREN)
+            .then(response => response.json())
+            .then(data => {
+
+                let posti_prenotati = '';
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].volo == id_volo) {
+                        posti_prenotati += data[i].posto.lettera + (data[i].posto.numero).toString() + ',' ;
+                    }
+                }
+                console.log(data[0].posto.lettera);
+
+                posti_prenotati = posti_prenotati.split(',');
+                console.log(posti_prenotati);
+                GeneraPosti(id_volo, posti_prenotati);
+            })
+            .catch(err => console.log(err));
+
+
+
+
+
+
+
+
+
+        function GeneraPosti(id_volo, posti_prenotati) {
+            const API_VOLI = 'http://localhost:8000/apivolo/';
+            console.log(API_VOLI + id_volo);
+            fetch(API_VOLI + id_volo)
+                .then(response => response.json())
+                .then(data => {
+                    content = {
+                        'posti_primaclasse': data.aircraft.posti_primaclasse,
+                        'posti_secondaclasse': data.aircraft.posti_secondaclasse,
+                        'posti_economy': data.aircraft.posti_economy,
+                        'tot_posti': (data.aircraft.posti_primaclasse + data.aircraft.posti_secondaclasse + data.aircraft.posti_economy),
+                    }
+                    console.log(data.aircraft.posti_primaclasse);
+                    let file = parseInt(data.tot_posti / 6);
+                    for (let i = 1; i <= file; i++) {
+                        document.getElementById('posti').append(Fila(i, content, posti_prenotati));
+                    }
+                })
+                .catch(err => console.log(err));
         }
-        document.getElementById('posti').append(Resto(numero_posti,file+1));
-        function fila(i) {
+
+
+
+        function Fila(i, content, posti_prenotati) {
             const node = document.createElement('tr');
             let td = '<th scope="row">' + i + '</th>';
             let lettere = ['A', 'B', 'C', 'D', 'E', 'F'];
             for (let j = 0; j < 6; j++) {
-                td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn" onclick="scelta(this.id)"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                if (!posti_prenotati.includes(lettere[j] + i.toString())) {
+                    if (content.posti_primaclasse != 0) {
+                        td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-warning opacity-50" type="button" onclick="scelta(this.id)" name="Prima Classe"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                        content.posti_primaclasse--;
+                        Resto(content.posti_primaclasse, file + 1, content);
+                        //document.getElementById('posti').append(Resto(posti_primac,file+1));
+                    }
+                    else if (content.posti_secondaclasse != 0) {
+                        td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-primary opacity-50" type="button" onclick="scelta(this.id)" name="Seconda Classe"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                        //document.getElementById('posti').append(Resto(posti_secondac,file+1));
+                        content.posti_secondaclasse--;
+                        Resto(content.posti_secondaclasse, file + 1, content);
+                    }
+                    else {
+                        td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-secondary opacity-50" type="button" onclick="scelta(this.id)" name="Economy"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                        //document.getElementById('posti').append(Resto(posti_economy,file+1));
+                        content.posti_economy--;
+                        Resto(content.posti_economy, file + 1, content);
+                    }
+                }
+                else {
+                    if (content.posti_primaclasse != 0) {
+                        td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-light" disabled type="button" onclick="scelta(this.id)" name="Prima Classe"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                        content.posti_primaclasse--;
+                        //document.getElementById('posti').append(Resto(posti_primac,file+1));
+                    }
+                    else if (content.posti_secondaclasse != 0) {
+                        td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-light" disabled type="button" onclick="scelta(this.id)" name="Seconda Classe"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                        //document.getElementById('posti').append(Resto(posti_secondac,file+1));
+                        content.posti_secondaclasse--;
+                    }
+                    else {
+                        td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-light" disabled type="button" onclick="scelta(this.id)" name="Economy"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                        //document.getElementById('posti').append(Resto(posti_economy,file+1));
+                        content.posti_economy--;
+                    }
+                }
+
             }
             node.innerHTML = td;
             return node;
-           
+
         }
 
-        let posti = [];
+        let posti_scelti = [];
         function scelta(id) {
-            if (document.getElementById(id).classList == 'btn') {
-                posti.push(id);
-                document.getElementById(id).classList.add('btn-success');
+
+            if (document.getElementById(id).classList.contains('opacity-50')) {
+                posti_scelti.push(id);
+                document.getElementById(id).classList.remove('opacity-50');
+                document.getElementById('posto').innerHTML = id.toString();
+                let classe = document.getElementById(id).name;
+                document.getElementById('classe').value = classe;
+                if (id.length == 3) {
+                    document.getElementById('lettera').value = id.toString().substr(-1);
+                    document.getElementById('numero').value = id.toString().substr(0, 2);
+
+                } else {
+                    document.getElementById('lettera').value = id.toString().substr(-1);
+                    document.getElementById('numero').value = id.toString()[0];
+                }
             }
             else {
-                posti.pop(id);
-                document.getElementById(id).classList.remove('btn-success');
+                posti_scelti.pop(id);
+                document.getElementById(id).classList.add('opacity-50');
+                document.getElementById('lettera').innerHTML = '';
+                document.getElementById('numero').innerHTML = '';
             }
         }
 
-        function Resto(posti, i) {
+
+        function Resto(posti, i, content) {
             const node = document.createElement('tr');
-            resto = posti % 6;
+            let resto = posti % 6;
             let td = '<th scope="row">' + i + '</th>';
             let lettere = ['A', 'B', 'C', 'D', 'E', 'F'];
             for (let j = 0; j < resto; j++) {
-                td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn" onclick="scelta(this.id)"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                if (content.posti_primaclasse != 0) {
+                    td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-warning" type="button" onclick="scelta(this.id)" name="Prima Classe"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+
+                }
+                else if (content.posti_secondaclasse != 0) {
+                    td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-primary" type="button" onclick="scelta(this.id)" name="Seconda Classe"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+                }
+                else {
+                    td += '<td><button id="' + i.toString() + lettere[j] + '" class="btn btn-secondary" type="button" onclick="scelta(this.id)" name="Economy"><img src="{% static "media/poltrona.png" %}" height=30 width=30></button></td>';
+
+                }
 
             }
             node.innerHTML = td;

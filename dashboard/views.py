@@ -9,6 +9,7 @@ from .forms import *
 
 
 
+
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -56,5 +57,4 @@ def delete_aeroporto(request,pk):
         messages.error(request, 'Errore')
     context = {'item' : aeroporto}
     return render(request, 'dashboard/delete_aeroporto.html', context)
-
 
