@@ -157,24 +157,44 @@ def riepilogo(request):
         context['message'] = 'Errore!'
 
     return render(request, 'sito/prenotazione.html',context)
+
+def prenota(request):
+    context = {}
+    if request.method == 'POST':
+        name = request.POST['name']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+        telefono = request.POST['telefono']
+        lettera = request.POST.get('lettera', '')
+        numero = request.POST.get('numero', '')
+        classet = request.POST.get('classe', '')
+        id_volo = request.POST.get('id_volo', '')
+
+        volo = Fly.objects.get(id=id_volo)
+        utente = Utent(name=name, lastname=lastname, email=email, telefono=telefono)
+        posto = Posto(lettera=lettera, numero=numero, classe = classet)
+        posto.save()
+        utente.save()
+        prenotazione = Prenotazione(utente=utente, volo=volo, posto=posto)
+        prenotazione.save()
+        send_mail(
+            'Conferma Prenotazione Starvato Airlines',
+            'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti'+
+            'Di seguito il codice della sua prenotazione : ' + prenotazione.code_prenotazione,
+            'starvatoairlines@example.com',
+            [email],
+            fail_silently=False,
+        ) 
+
+        context = {
+            'code_prenotazione' : prenotazione.code_prenotazione,
+            'email': email,
+        }
+    else:
+        context['message'] = 'Errore!'
+
+    return render(request, 'sito/pagina_conferma.html', context)
+        
     
 
-'''send_mail(
-                'Starvato Airlines',
-                'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti',
-                'starvatoairlines@example.com',
-                [request.POST['email']],
-            )
-
-    if request.method == 'POST':
-        form_posto = PostoForm(request.POST)
-        form_utente = UtentForm(request.POST)
-        if (form_posto.is_valid() & form_utente.is_valid()):
-            form_posto.save()
-            form_utente.save()
-            return redirect('/prenotazione/')
             
-
-        else:
-            context['message'] = 'Errore!'
-            '''

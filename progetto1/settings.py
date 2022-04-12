@@ -98,7 +98,7 @@ DATABASES_POSTGRESQL = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'prova',
-        'USER': 'postgres',
+        'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'POST': '5432',
@@ -156,3 +156,6 @@ LOGIN_URL = '/login/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = "none"
