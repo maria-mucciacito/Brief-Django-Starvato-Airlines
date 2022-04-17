@@ -16,11 +16,12 @@ router.register(r'utent', views.UtentApi)
 urlpatterns = [
     path('', views.index, name='home'),
     path('flights/',views.visualizza_voli, name="voli"),
-    path('posto/<str:pk>/<int:adulti>/<str:classe>/',views.seleziona_posto , name='seleziona_posto'),
+    path('posto/<int:pk>/<int:adulti>/<str:classe>/',views.seleziona_posto , name='seleziona_posto'),
     path('imieivoli/', views.cerca_prenotazione, name='cerca_prenotazione'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api', include(router.urls)),
     path('riepilogo/', views.riepilogo, name='riepilogo'),
     path('prenotazione/', views.prenota, name='prenota'),
+    path('imieivoli/delete/<int:id>/',views.delete_prenotazione,name='delete_prenotazione'),
     
 ]

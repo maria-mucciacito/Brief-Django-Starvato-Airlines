@@ -1,4 +1,6 @@
 
+from contextlib import nullcontext
+from genericpath import exists
 from django.shortcuts import redirect, render
 from django.template import context
 from django.urls import is_valid_path
@@ -55,38 +57,82 @@ def visualizza_voli(request):
     if request.method == 'POST':
         aeroporto_partenza = request.POST['partenze']
         aeroporto_arrivo = request.POST['arrivi']
-        data = request.POST['data']
+        data_andata = request.POST.get('dataandata','')
         classe = request.POST['classe']
         adulti = request.POST['adulti']
+        scelta = request.POST['scelta']
+        data_ritorno = request.POST.get('dataritorno','')
         partenza = Airport.objects.get(city=aeroporto_partenza)
         arrivo = Airport.objects.get(city=aeroporto_arrivo)
+        if data_ritorno == '':
 
-        voli = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data))
-        if (len(voli) == 0):
-            context = {
-            'voli': voli,
-            'partenza': aeroporto_partenza,
-            'arrivo' : aeroporto_arrivo,
-            'data' : data,
-            'classe': classe,
-            'adulti': adulti,
-            'message': 'Non ci sono voli disponibili!',
-            }
+            voli = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data_andata))
+            if (len(voli) == 0):
+                context = {
+                    'voli': voli,
+                    'partenza': aeroporto_partenza,
+                    'arrivo' : aeroporto_arrivo,
+                    'data_andata' : data_andata,
+                    'classe': classe,
+                    'adulti': adulti,
+                    'scelta': scelta,
+                    'message': 'Non ci sono voli disponibili!',
+                }
+            else:
+                context = {
+                    'voli': voli,
+                    'partenza': aeroporto_partenza,
+                    'arrivo' : aeroporto_arrivo,
+                    'data_andata' : data_andata,
+                    'classe': classe,
+                    'adulti': adulti,
+                    'scelta': scelta,
+                    'message': 'Ecco tutti i voli disponibili!',
+                }
         else:
-            context = {
-                'voli': voli,
-                'partenza': aeroporto_partenza,
-                'arrivo' : aeroporto_arrivo,
-                'data' : data,
-                'classe': classe,
-                'adulti': adulti,
-                'message': 'Ecco tutti i voli disponibili!',
-            }
+            voli_andata = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data_andata))
+            if (len(voli_andata) == 0):
+                context = {
+                    'voli': voli_andata,
+                    'partenza': aeroporto_partenza,
+                    'arrivo' : aeroporto_arrivo,
+                    'data_andata' : data_andata,
+                    'classe': classe,
+                    'adulti': adulti,
+                    'scelta': scelta,
+                    'message': 'Non ci sono voli disponibili!',
+                }
+            else:
+                context = {
+                    'voli': voli_andata,
+                    'partenza': aeroporto_partenza,
+                    'arrivo' : aeroporto_arrivo,
+                    'data_andata' : data_andata,
+                    'classe': classe,
+                    'adulti': adulti,
+                    'scelta': scelta,
+                    'message': 'Ecco tutti i voli disponibili!',
+                }
+                
+            voli_ritorno = Fly.objects.filter(Q(aeroporto_partenza=arrivo.id) & Q(aeroporto_arrivo=partenza.id) & Q(data_partenza=data_ritorno))
+            if (len(voli_ritorno) == 0):
+                context['voli_ritorno'] = voli_ritorno
+                context['messager'] = 'Non ci sono voli disponibili!'
+    
+            else:
+                context['voli_ritorno'] = voli_ritorno
+                context['messager'] = 'Ecco tutti i voli disponibili!'
+           
 
     else:
-        messages.error(request, 'Errore!')
+        context['message'] = 'Errore'
     
     return render(request,'sito/voli.html',context)
+
+    
+
+
+
 
 def seleziona_posto(request,pk,adulti,classe):
     volo = Fly.objects.get(id=pk)
@@ -99,28 +145,26 @@ def seleziona_posto(request,pk,adulti,classe):
         'classe': classe,
         'adulti': adulti,
         'form_posto': form_posto,
-        'form_utente': form_utente
+        'form_utente': form_utente,
     }
     return render(request, 'sito/postieutente.html', context)
 
 def cerca_prenotazione(request):
-    prenotazioni = []
+    context = {}
+    
     if request.method == 'POST':
         code = request.POST['codice']
-        name = request.POST['name']
-        lastname = request.POST['lastname']
-        utente = Utent.objects.filter(Q(name=name) & Q(lastname=lastname))
-      
-
-        prenotazioni = Prenotazione.objects.filter(Q(code_prenotazione=code) &  Q(utente=utente[0]))
+        try:
+            prenotazione = Prenotazione.objects.get(code_prenotazione=code)
+            context = {
+                'prenotazione': prenotazione,
+                'message': 'Ecco tutti i dettagli della tua prenotazione!',
+            }
+        except:
+            context['message']= 'Non ci sono prenotazioni per questo codice!'
         
-        messages.success(request, 'Ecco tutte le tue prenotazioni')
-        context = {
-            'prenotazioni': prenotazioni,
-        }
-
     else:
-        messages.error(request, 'Non ci sono prenotazioni!')
+        context['messageform'] = 'Errore! Si prega di riprovare! '
     
     return render(request,'sito/imieivoli.html',context)
 
@@ -138,8 +182,8 @@ def riepilogo(request):
         classet = request.POST.get('classe', '')
         id_volo = request.POST.get('id_volo', '')
         adulti = request.POST.get('adulti', '')
-    
-    
+     
+
         volo = Fly.objects.get(id=id_volo)
         context = {
             'volo': volo,
@@ -181,7 +225,7 @@ def prenota(request):
             'Conferma Prenotazione Starvato Airlines',
             'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti'+
             'Di seguito il codice della sua prenotazione : ' + prenotazione.code_prenotazione,
-            'starvatoairlines@example.com',
+            None,
             [email],
             fail_silently=False,
         ) 
@@ -195,6 +239,18 @@ def prenota(request):
 
     return render(request, 'sito/pagina_conferma.html', context)
         
-    
+def delete_prenotazione(request,id):
+    context = {}
+    prenotazione = Prenotazione.objects.get(id=id)
+    if request.method == 'POST':
+        prenotazione.delete()
+        return redirect('/')
+    else:
+        context['message'] = 'Errore'
+    context['item'] = prenotazione
+    return render(request,'partials/delete_prenotazione.html',context)
+
+
+
 
             

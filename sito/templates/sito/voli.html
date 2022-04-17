@@ -23,10 +23,10 @@
             border-color: deepskyblue;
             text-decoration: none;
         }
-        cele{
+
+        cele {
             background: linear-gradient(top right, #FFFFFF 0%, #AACFEF 100%);
         }
-       
     </style>
 
 
@@ -39,15 +39,15 @@
         <nav class="navbar navbar-expand-sm border">
             <div class="container-fluid">
                 <a href="{% url 'home' %}" class=" d-flex navbar-brand text-decoration-none  align-items-middle">
-                    <img src="{% static 'media/logoexmp.jpeg' %}" width="150" height="70" class="">
+                    <img src="{% static 'media/logoexmp.jpeg' %}" width="140" height="90" class="">
                     <span class="" id="logo"> Starvato Airlines</span>
                 </a>
                 <h2>{{partenza}}</h2><i class="bi bi-arrow-left-right"></i>
                 <h2>{{arrivo}}</h2><br>
-                <span>Sola Andata - {{data}} - {{adulti}} Adulti</span>
+                <span>{{scelta}} - {{data_andata}} - {{adulti}} Adulti</span>
                 <ul class="nav nav-tabs" style="border-bottom: none;">
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" id="modifica" href="#">Modifica Scelta</a>
+                        <a class="nav-link text-secondary" id="modifica" href="{% url 'home' %}">Modifica Scelta</a>
                     </li>
                 </ul>
             </div>
@@ -55,15 +55,16 @@
     </div>
 
     <div class="container text-center mt-5">
-   
-        <h3>{{message}}</h3>
-        
+
+        <h3>Andata</h3>
+        <h4>{{message}}</h4>
+
     </div>
 
     {% for volo in voli %}
     <div class="container-fluid  m-5" align="center">
         <div class="row m-3" style="width: 70%;">
-            <div class="card text-center" >
+            <div class="card text-center">
                 <div class="card-header" style="background-color: #AACFEF;">
                     <span>Numero Volo: </span>{{volo.code_volo}} <br>
                     <span>Data: </span> {{volo.data_partenza}}
@@ -79,7 +80,8 @@
                             <p class="card-text">{{volo.ora_arrivo}}</p>
                         </div>
                         <div class="col-sm-2">
-                            <a href="{% url 'seleziona_posto' volo.id adulti classe %}" class="btn" style="background-color: #AACFEF;">Seleziona</a>
+                            <a href="{% url 'seleziona_posto' volo.id adulti classe%}" class="btn"
+                                style="background-color: #AACFEF;">Seleziona</a>
                         </div>
                     </div>
 
@@ -90,15 +92,57 @@
     </div>
     {% endfor %}
 
+    {% if scelta == 'Andata e Ritorno' %}
+
+    <hr width="100%" size="3" color="grey" align="center">
+
+    <div class="container text-center mt-5">
+
+        <h3>Ritorno</h3>
+        <h4>{{messager}}</h4>
+
+    </div>
+
+    {% for fly in voli_ritorno %}
+    <div class="container-fluid  m-5" align="center">
+        <div class="row m-3" style="width: 70%;">
+            <div class="card text-center">
+                <div class="card-header" style="background-color: #AACFEF;">
+                    <span>Numero Volo: </span>{{fly.code_volo}} <br>
+                    <span>Data: </span> {{fly.data_partenza}}
+                </div>
+                <div class="card-body">
+                    <div class="row text-center m-2">
+                        <div class="col-sm-5">
+                            <h5 class="card-title"> Da {{fly.aeroporto_partenza}}</h5>
+                            <p class="card-text">{{fly.ora_partenza}}</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <h5 class="card-title">A {{fly.aeroporto_arrivo}}</h5>
+                            <p class="card-text">{{fly.ora_arrivo}}</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="{% url 'seleziona_posto' fly.id adulti classe %}" class="btn"
+                                style="background-color: #AACFEF;">Seleziona</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% endif %}
 
 
 
 
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
