@@ -39,8 +39,8 @@ class Posto(models.Model):
 class Fly(models.Model):
     code_volo = models.CharField(max_length=200, unique=True)
     distanza_percorsa = models.IntegerField()
-    ora_partenza = models.TimeField(auto_now=False, auto_now_add=False)
-    ora_arrivo = models.TimeField(auto_now=False, auto_now_add=False)
+    ora_partenza = models.TimeField()
+    ora_arrivo = models.TimeField()
     data_partenza = models.DateField(auto_now=False, auto_now_add=False, default=timezone.now)
     aeroporto_partenza = models.ForeignKey('Airport', on_delete=models.SET_NULL, related_name="a_partenza",default=-1,null=True)
     aeroporto_arrivo = models.ForeignKey('Airport', on_delete=models.SET_NULL, related_name="a_arrivo", default=-2,null=True)

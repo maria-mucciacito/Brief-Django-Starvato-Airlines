@@ -16,7 +16,7 @@
 <body class="gradient-custom text-white">
     <div class="row m-5"> 
         <div class="col-sm-8">
-            <h1 style="font-family: 'Times New Roman', Times, serif;">Voli</h1>
+            <h1 style="font-family: 'Times New Roman', Times, serif;">Aeroporti</h1>
         </div>
         <div class="col-sm-4 flex-end">
             <p>Clicca qui per inserire un nuovo aeroporto: </p>
@@ -55,7 +55,7 @@
                 <tr>
                     <td>{{aeroporto.id}}</td>
                     <td>{{aeroporto.identification}}</td>
-                    <td>{{aeroporto.type}}</td>
+                    <td width="200px">{{aeroporto.type_airport}}</td>
                     <td>{{aeroporto.name}}</td>
                     <td>{{aeroporto.latitude_deg}}</td>
                     <td>{{aeroporto.longitude_deg}}</td>
@@ -84,6 +84,10 @@
             </tbody>
         </table>
     </div>
+    <div class="my-5 mx-2">
+        <a class="text-white" href="{% url 'index' %}">Back to Dashboard</a>
+    </div>
+
 
 
 

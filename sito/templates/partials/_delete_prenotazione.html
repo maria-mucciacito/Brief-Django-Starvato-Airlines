@@ -14,10 +14,10 @@
         <div class="row m-3">
             <div class="col-sm-12">
                 <p> Sei sicuro di voler eliminare la prenotazione n. "{{item}}"? </p>
-                <form method="post" action="{% url 'delete_prenotazione' item.id %}">
+                <form method="post" action="{% url 'cancella_prenotazione' item.id %}">
                     {% csrf_token %}
-                    <a href="{% url 'home' %}" class="btn btn-sm btn-light">Cancel</a>
-                    <button type="submit" class="btn btn-sm btn-light">Confirm</button>
+                    <a href="{% url 'home' %}" class="btn btn-sm btn-light">Back</a>
+                    <button type="submit" class="btn btn-sm btn-secondary">Confirm</button>
                 </form>
             </div>
         </div>

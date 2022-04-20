@@ -48,8 +48,14 @@ class UtentApi(viewsets.ModelViewSet):
 # Create your views here.
 
 def index(request):
-    ls_airports = Airport.objects.all()
-    context = {'aeroporti': ls_airports}
+    ls_airports = set(Airport.objects.all())
+    partenza = 
+    ls_airports_arrive = set(Airport.objects.all().exclude(city=partenza))
+    context = {
+        'aeroporti_partenza': ls_airports,
+        'aeroporti_arrivi': ls_airports_arrive,
+        }
+    print(ls_airports_arrive)
     return render(request, 'sito/index.html',context)
 
 def visualizza_voli(request):
@@ -59,7 +65,7 @@ def visualizza_voli(request):
         aeroporto_arrivo = request.POST['arrivi']
         data_andata = request.POST.get('dataandata','')
         classe = request.POST['classe']
-        adulti = request.POST['adulti']
+        adulti = request.POST.get('adulti', '')
         scelta = request.POST['scelta']
         data_ritorno = request.POST.get('dataritorno','')
         partenza = Airport.objects.get(city=aeroporto_partenza)
@@ -129,23 +135,23 @@ def visualizza_voli(request):
     
     return render(request,'sito/voli.html',context)
 
-    
 
-
-
-
-def seleziona_posto(request,pk,adulti,classe):
+def seleziona_posto(request,pk,adulti,classe,scelta):
     volo = Fly.objects.get(id=pk)
     form_posto = PostoForm()
     form_utente = UtentForm()
-   
-        
+    passegeri = []
+    for i in range(1,adulti+1):
+        passegeri.append(i)
     context = {
         'volo': volo,
         'classe': classe,
         'adulti': adulti,
         'form_posto': form_posto,
         'form_utente': form_utente,
+        'passegeri': passegeri,
+        'scelta':scelta,
+      
     }
     return render(request, 'sito/postieutente.html', context)
 
@@ -182,6 +188,7 @@ def riepilogo(request):
         classet = request.POST.get('classe', '')
         id_volo = request.POST.get('id_volo', '')
         adulti = request.POST.get('adulti', '')
+        scelta = request.POST.get('scelta', '')
      
 
         volo = Fly.objects.get(id=id_volo)
@@ -195,6 +202,7 @@ def riepilogo(request):
             'numero': numero,
             'classe': classet,
             'adulti':adulti,
+            'scelta': scelta,
         }
 
     else:
@@ -213,6 +221,8 @@ def prenota(request):
         numero = request.POST.get('numero', '')
         classet = request.POST.get('classe', '')
         id_volo = request.POST.get('id_volo', '')
+        scelta = request.POST.get('scelta','')
+        adulti = request.POST.get('adulti', '')
 
         volo = Fly.objects.get(id=id_volo)
         utente = Utent(name=name, lastname=lastname, email=email, telefono=telefono)
@@ -225,21 +235,25 @@ def prenota(request):
             'Conferma Prenotazione Starvato Airlines',
             'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti'+
             'Di seguito il codice della sua prenotazione : ' + prenotazione.code_prenotazione,
-            None,
+            'mucciacitomaria@gmail.com',
             [email],
             fail_silently=False,
         ) 
-
+         
         context = {
             'code_prenotazione' : prenotazione.code_prenotazione,
             'email': email,
+            'scelta': scelta,
+            'volo': volo,
+            'classe': classet,
+            'scelta':scelta,
+            'adulti':adulti,
         }
     else:
         context['message'] = 'Errore!'
-
     return render(request, 'sito/pagina_conferma.html', context)
         
-def delete_prenotazione(request,id):
+def cancella_prenotazione(request,id):
     context = {}
     prenotazione = Prenotazione.objects.get(id=id)
     if request.method == 'POST':
@@ -248,9 +262,7 @@ def delete_prenotazione(request,id):
     else:
         context['message'] = 'Errore'
     context['item'] = prenotazione
-    return render(request,'partials/delete_prenotazione.html',context)
-
-
+    return render(request,'partials/_delete_prenotazione.html',context)
 
 
             

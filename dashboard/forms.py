@@ -1,4 +1,5 @@
-from dataclasses import field
+from dataclasses import field, fields
+from pyexpat import model
 from django import  forms
 from .models import *
 
@@ -45,4 +46,22 @@ class PostoForm(forms.ModelForm):
         model = Posto
         fields = '__all__'
 
+class FlyForm(forms.ModelForm):
 
+    data_partenza = forms.DateField( widget=forms.DateInput(attrs={
+        'type': 'date'
+    }))
+    ora_partenza = forms.TimeField(widget=forms.TimeInput(attrs={
+        'type': 'time'
+    }))
+    ora_arrivo = forms.TimeField(widget=forms.TimeInput(attrs={
+        'type': 'time'
+    }))
+    class Meta:   
+        model = Fly
+        fields = '__all__'
+
+class PrenotazioneForm(forms.ModelForm):
+    class Meta:
+        model = Prenotazione
+        fields = '__all__'

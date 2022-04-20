@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <title>Prenotazioni</title>
+</head>
+
+<body class="gradient-custom text-white">
+    <div class="row m-5">
+        <div class="col-sm-8">
+            <h1 style="font-family: 'Times New Roman', Times, serif;">Prenotazioni</h1>
+        </div>
+        <div class="col-sm-4 flex-end">
+            <p>Clicca qui per inserire una nuova prenotazione : </p>
+            <a href="{% url 'insert_prenotazione' %}" class="btn btn-light">+ Insert</a>
+        </div>
+    </div>
+    <div class="container-fluid ms-5">
+        <table class="table table-bordered table-sm text-white" style=" align-items: center; width: 70%;">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Code Prenotazione</th>
+                    <th scope="col">Utente</th>
+                    <th scope="col">Volo</th>
+                    <th scope="col">Posto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prenotazione in prenotazioni %}
+
+                <tr>
+                    <td>{{prenotazione.id}}</td>
+                    <td>{{prenotazione.code_prenotazione}}</td>
+                    <td>{{prenotazione.utente}}</td>
+                    <td>{{prenotazione.volo}}</td>
+                    <td>{{prenotazione.posto}}</td>
+                    <td>
+                        <a href="{% url 'update_prenotazione' prenotazione.id %}" class="btn btn-light btn-sm">Update</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_prenotazione' prenotazione.id %}" class="btn btn-light btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="my-5 mx-5">
+        <a class="text-white" href="{% url 'index' %}">Back to Dashboard</a>
+    </div>
+
+
+
+    <scrip src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+
+</body>
+
+</html>

@@ -122,20 +122,9 @@
     </div>
 
     <div class="container m-5">
-        <a href="#" class="btn btn-primary">Update</a>
-        <a href="{% url 'delete_prenotazione' prenotazione.id %}" class="btn btn-danger">Elimina</a>
+        <a href="{% url 'cancella_prenotazione' prenotazione.id %}" class="btn btn-danger">Elimina</a>
  
     </div>
     
-    
-    
-    
-    
-    {%  for i in prenotazioni%}
-        {{i.volo}}
-        {{i.utente.name}}
-        {{i.utente.lastname}}
-        {{i.utente.email}}
-    {% endfor %}
 </body>
 </html>

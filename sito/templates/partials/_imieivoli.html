@@ -1,22 +1,18 @@
 {% load static %}
 
 <a name='imieivoli'>
-    <div class="container my-5 times">
-        <div class="row m-3">
+    <div class="container my-5 times" align="center">
+        <div class="row mt-3">
             <h3 style="color: deepskyblue;" class="my-4">I MIEI VOLI</h3>
         </div>
         <form method="post" action="{% url 'cerca_prenotazione' %}">
             {% csrf_token %}
 
-            <div class="row m-3">
-                <div class="col-sm-4">
-                    <label for="codice" class="form-label">Code Prenotazine</label>
-                    <input type="text" name="codice" class="form-control">
-                </div>
-            </div>
-            <div class="row m-3 ">
-                <div class="col-sm-4">
-                    <button type="submit" value="Cerca" class="btn btn-primary">Search</button>
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <input type="text" name="codice" class="form-control me-3" placeholder="Codice Prenotazione" style="width: 350px;">
+                    <button type="submit" value="Cerca" class="btn btn-secondary mt-3">Search</button>
+                    
                 </div>
             </div>
         </form>

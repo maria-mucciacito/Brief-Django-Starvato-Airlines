@@ -80,7 +80,7 @@
                             <p class="card-text">{{volo.ora_arrivo}}</p>
                         </div>
                         <div class="col-sm-2">
-                            <a href="{% url 'seleziona_posto' volo.id adulti classe%}" class="btn"
+                            <a href="{% url 'seleziona_posto' volo.id adulti classe scelta %}" class="btn"
                                 style="background-color: #AACFEF;">Seleziona</a>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                             <p class="card-text">{{fly.ora_arrivo}}</p>
                         </div>
                         <div class="col-sm-2">
-                            <a href="{% url 'seleziona_posto' fly.id adulti classe %}" class="btn"
+                            <a href="{% url 'seleziona_posto' fly.id adulti classe scelta  %}" class="btn"
                                 style="background-color: #AACFEF;">Seleziona</a>
                         </div>
                     </div>
