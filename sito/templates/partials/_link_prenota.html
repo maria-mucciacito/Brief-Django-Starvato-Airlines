@@ -33,18 +33,16 @@
                                 placeholder="Partenza">
                             <datalist id="datalistOptionsPartenze">
                                 {% for aeroporto in aeroporti_partenza %}
-                                <option value="{{aeroporto.city}}">
+                                <option value="{{aeroporto.city}}" name="{aeroporto.iso_region}}">{{aeroporto.iso_region}}</option>
                                     {% endfor %}
                             </datalist>
                         </div>
                         <div class="col-sm-4">
                             <label for="arrivi" class="form-label">A</label>
                             <input class="form-control" list="datalistOptionsArrivi" name="arrivi" id="arrivi"
-                                placeholder="Arrivo">
+                                placeholder="Arrivo" >
                             <datalist id="datalistOptionsArrivi">
-                                {% for aeroporto in aeroporti_arrivi %}
-                                <option value="{{aeroporto.city}}">
-                                    {% endfor %}
+    
                             </datalist>
                         </div>
                         <div class="col-sm-3">
@@ -80,3 +78,4 @@
         </div>
     </div>
 </div>
+

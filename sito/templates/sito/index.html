@@ -13,25 +13,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <title>Index</title>
 </head>
-<body >
+
+<body>
     {% block header %}
-        {% include 'partials/_header.html' %}
+    {% include 'partials/_header.html' %}
     {% endblock %}
     {% block carousel %}
-        {% include 'partials/_carousel.html' %}
+    {% include 'partials/_carousel.html' %}
     {% endblock %}
     {% block prenota %}
-        {% include 'partials/_link_prenota.html' %}
+    {% include 'partials/_link_prenota.html' %}
     {% endblock %}
-    
+
     {% block chisiamo %}
-        {% include 'partials/_chisiamo.html' %}
+    {% include 'partials/_chisiamo.html' %}
     {% endblock %}
     {% block cards %}
-        {% include 'partials/_cards.html' %}
+    {% include 'partials/_cards.html' %}
     {% endblock %}
     {% block imieivoli %}
-        {% include 'partials/_imieivoli.html' %}
+    {% include 'partials/_imieivoli.html' %}
     {% endblock %}
 
 
@@ -39,7 +40,7 @@
 
 
     {% block footer %}
-        {% include 'partials/_footer.html' %}
+    {% include 'partials/_footer.html' %}
     {% endblock %}
 
 
@@ -48,19 +49,55 @@
 
 
 
-<script>
+    <script>
 
-    let data_ritorno = document.getElementById('dataritorno');
+        let data_ritorno = document.getElementById('dataritorno');
 
-    function abilita(){
-        data_ritorno.disabled = false;
-    }
+        function abilita() {
+            data_ritorno.disabled = false;
+        }
 
-    function disabilita(){
-        data_ritorno.disabled = true;
-    }
+        function disabilita() {
+            data_ritorno.disabled = true;
+        }
 
-</script>
+
+
+        const API_PREN = 'http://localhost:8000/apiaeroporto/';
+        fetch(API_PREN)
+            .then(response => response.json())
+            .then(data => {
+                let options = document.getElementById('datalistOptionsArrivi');
+                document.getElementById('partenze').addEventListener('input', function () {
+                    let partenza = document.getElementById('partenze').value;
+                    let airports_arrive = [];
+                    let airports_province = [];
+                    options.innerHTML = '';
+                    for (let x = 0; x < data.length; x++) {
+                        airports_arrive.push(data[x].city);
+                        airports_province.push(data[x].iso_region);
+                        if (data[x].city == partenza) {
+                            airports_arrive.pop(data[x].city);
+                            airports_province.pop(data[x].iso_region);
+                        }
+                    }
+                    for (let i = 0; i < airports_arrive.length; i++) {
+                        options.innerHTML += '<option value="' + airports_arrive[i] + '">'+ airports_province[i]  +'</option>';
+                    }
+                    console.log(airports_arrive);
+                });
+
+            })
+            .catch(err => console.log(err));
+
+
+
+
+
+
+
+
+    </script>
 
 
 

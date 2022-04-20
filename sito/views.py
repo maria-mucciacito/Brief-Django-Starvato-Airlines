@@ -49,13 +49,10 @@ class UtentApi(viewsets.ModelViewSet):
 
 def index(request):
     ls_airports = set(Airport.objects.all())
-    partenza = 
-    ls_airports_arrive = set(Airport.objects.all().exclude(city=partenza))
     context = {
         'aeroporti_partenza': ls_airports,
-        'aeroporti_arrivi': ls_airports_arrive,
-        }
-    print(ls_airports_arrive)
+    }
+
     return render(request, 'sito/index.html',context)
 
 def visualizza_voli(request):
