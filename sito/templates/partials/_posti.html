@@ -16,7 +16,6 @@
 <body class="container">
 
 
-
     <table class="table w-25 h-25">
         <thead>
             <tr>
@@ -29,25 +28,24 @@
                 <th scope="col">F</th>
             </tr>
         </thead>
-        <tbody id="posti">
+        <tbody id="posti{{passegero}}">
         </tbody>
     </table>
 
 
-
+    
     <script>
 
 
-
-        let id_volo = '{{volo.id}}';
+        var id_volo = '{{volo.id}}';
         id_volo = parseInt(id_volo);
 
-        const API_PREN = 'http://localhost:8000/apiprenotazione/';
+        var API_PREN = 'http://localhost:8000/apiprenotazione/';
         fetch(API_PREN)
             .then(response => response.json())
             .then(data => {
-                let posti_prenotati = '';
-                for (let x = 0; x < data.length; x++) {
+                var posti_prenotati = '';
+                for (var x = 0; x < data.length; x++) {
     
                     if (data[x].volo.id == id_volo) {
                         posti_prenotati += data[x].posto.lettera + (data[x].posto.numero).toString() + ',' ;
@@ -69,7 +67,7 @@
 
 
         function GeneraPosti(id_volo, posti_prenotati) {
-            const API_VOLI = 'http://localhost:8000/apivolo/';
+            var API_VOLI = 'http://localhost:8000/apivolo/';
             fetch(API_VOLI + id_volo)
                 .then(response => response.json())
                 .then(data => {
@@ -80,8 +78,8 @@
                         'tot_posti': (data.aircraft.posti_primaclasse + data.aircraft.posti_secondaclasse + data.aircraft.posti_economy),
                         'file': parseInt((data.aircraft.posti_primaclasse + data.aircraft.posti_secondaclasse + data.aircraft.posti_economy)/6)+1,
                     }
-                    for (let i = 1; i <= content.file; i++) {
-                        document.getElementById('posti').append(Fila(i, content, posti_prenotati));
+                    for (var i = 1; i <= content.file; i++) {
+                        document.getElementById('posti{{passegero}}').append(Fila(i, content, posti_prenotati));
                     }
                    
                 })
@@ -91,9 +89,9 @@
 
 
         function Fila(i, content, posti_prenotati) {
-            const node = document.createElement('tr');
-            let td = '<th scope="row">' + i + '</th>';
-            let lettere = ['A', 'B', 'C', 'D', 'E', 'F'];
+            var node = document.createElement('tr');
+            var td = '<th scope="row">' + i + '</th>';
+            var lettere = ['A', 'B', 'C', 'D', 'E', 'F'];
             for (let j = 0; j < 6; j++) {
                 if (!posti_prenotati.includes(lettere[j] + i.toString())) {
                     if (content.posti_primaclasse != 0) {
@@ -133,14 +131,14 @@
 
         }
 
-        let posti_scelti = [];
+        var posti_scelti = [];
         function Scelta(id) {
 
             if (document.getElementById(id).classList.contains('opacity-50')) {
                 posti_scelti.push(id);
                 document.getElementById(id).classList.remove('opacity-50');
-                document.getElementById('posto').innerHTML = id.toString();
-                let classe = document.getElementById(id).name;
+                document.getElementById('posto{{passegero}}').innerHTML = id.toString();
+                var classe = document.getElementById(id).name;
                 document.getElementById('classe').value = classe;
                 if (id.length == 3) {
                     document.getElementById('lettera').value = id.toString().substr(-1);
@@ -164,7 +162,6 @@
 
 
     </script>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

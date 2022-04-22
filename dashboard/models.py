@@ -1,3 +1,4 @@
+from statistics import mode
 from django.db import models
 from django.utils import timezone
 from dashboard.utils import make_uuid
@@ -45,6 +46,7 @@ class Fly(models.Model):
     aeroporto_partenza = models.ForeignKey('Airport', on_delete=models.SET_NULL, related_name="a_partenza",default=-1,null=True)
     aeroporto_arrivo = models.ForeignKey('Airport', on_delete=models.SET_NULL, related_name="a_arrivo", default=-2,null=True)
     aircraft = models.ForeignKey('Aircraft', on_delete=models.SET_NULL, null=True)
+    posti_prenotati = models.IntegerField(default=0)
 
 
     def __str__(self):
@@ -67,7 +69,6 @@ class Personale(models.Model):
 			('Volo', 'Volo'),
 			('Assistenza', 'Assistenza'),
 			('Terra', 'Terra'),
-            ('Terra', 'Terra'),
 			)
     code_personale = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=100)
@@ -75,7 +76,7 @@ class Personale(models.Model):
     mansione = models.CharField(max_length=200)
     ruolo = models.CharField(max_length=200, choices=STATUS)
     email = models.EmailField(max_length=254)
-    telefono = models.IntegerField()
+    telefono = models.CharField(max_length=40)
     aircraft = models.ForeignKey('Aircraft', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

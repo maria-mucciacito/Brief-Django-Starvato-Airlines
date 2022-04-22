@@ -31,6 +31,7 @@
 </head>
 
 <body class="cele">
+    
     <form method="post" action="{% url 'riepilogo' %}">
         {% csrf_token %}
 
@@ -52,7 +53,6 @@
                 </div>
             </nav>
         </div>
-
 
 
         <div class="container m-5" style="width: 90%;">
@@ -80,92 +80,100 @@
                 </div>
             </div>
         </div>
-
-        <div class="container m-5" style="width: 90%;">
-            <div class="card">
-                <h3 class="card-header">Scelta Posto</h3>
-                <div class="card-body">
-                    <div class="row m-3">
-                        <div class="col-sm-8">
-                            {% block posti %}
-                            {% include 'partials/_posti.html' %}
-                            {% endblock %}
-                        </div>
-                        <div class="col-sm-4 times mt-3">
-                            <h4 class="mb-3">Legenda: </h4>
-                            <ul style="list-style-type:circle ">
-                                <li><span class="badge bg-warning mb-3" style="font-size: initial;">Prima Classe</span>
-                                </li>
-                                <li><span class="badge bg-primary mb-3" style="font-size: initial;">Seconda Classe
-                                    </span></li>
-                                <li><span class="badge bg-secondary mb-3" style="font-size: initial;">Economy</span>
-                                </li>
-                                <li><span class="badge bg-light text-dark mb-3" style="font-size: initial;">Già
-                                        Prenotato</span></li>
-                            </ul>
-
-                            {% for passegero in passegeri %}
-                            <div class="mt-5 ">
-                                <h5 class="mt-5"><b>Hai scelto il posto n.</b></h5><br>
-                                <p class="mt-2" id="posto">
-
-                                </p>
-                                <p class="mt-5 d-none">
-                                    {{form_posto.lettera}}
-                                    {{form_posto.numero}}
-                                    {{form_posto.classe}}
-                                </p>
+     
+            
+        
+        
+            <div class="container m-5" style="width: 90%;">
+                <div class="card">
+                    <h3 class="card-header">Scelta Posto</h3>
+                    <div class="card-body">
+                        <div class="row m-3">
+                            <div class="col-sm-8">
+                                {% block posti %}
+                                {% include 'partials/_posti.html' %}
+                                {% endblock %}
                             </div>
-                            {% endfor %}
+                            <div class="col-sm-4 times mt-3">
+                                <h4 class="mb-3">Legenda: </h4>
+                                <ul style="list-style-type:circle ">
+                                    <li><span class="badge bg-warning mb-3" style="font-size: initial;">Prima Classe</span>
+                                    </li>
+                                    <li><span class="badge bg-primary mb-3" style="font-size: initial;">Seconda Classe
+                                        </span></li>
+                                    <li><span class="badge bg-secondary mb-3" style="font-size: initial;">Economy</span>
+                                    </li>
+                                    <li><span class="badge bg-light text-dark mb-3" style="font-size: initial;">Già
+                                            Prenotato</span></li>
+                                </ul>
+
+                                
+                                <div class="mt-5 ">
+                                    <h5 class="mt-5"><b>Hai scelto il posto n.</b></h5><br>
+                                    <p class="mt-2" id="posto{{passegero}}">
+
+                                    </p>
+                                    <p class="mt-5 d-none">
+                                        {{form_posto.lettera}}
+                                        {{form_posto.numero}}
+                                        {{form_posto.classe}}
+                                    </p>
+                                </div>
+                                
+                                
+                            </div>
                         </div>
+
+
                     </div>
-
-
                 </div>
             </div>
-        </div>
 
-        <div class="container m-5">
-            <div class="card">
-                <h3 class="card-header">Dati Passeggero</h3>
-                <div class="card-body">
 
-                    <div class="row m-3">
-                        <div class="col-sm-4">
-                            <label for="name" class="form-label">Name</label>
-                            {{form_utente.name}}
+            <div class="container m-5">
+                <div class="card">
+                    <h3 class="card-header">Dati Passeggero</h3>
+                    <div class="card-body">
+
+                        <div class="row m-3">
+                            <div class="col-sm-4">
+                                <label for="name" class="form-label">Name</label>
+                                {{form_utente.name}}
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="lastname" class="form-label">Last Name</label>
+                                {{form_utente.lastname}}
+                            </div>
                         </div>
-                        <div class="col-sm-4">
-                            <label for="lastname" class="form-label">Last Name</label>
-                            {{form_utente.lastname}}
+                        <div class="row m-3">
+                            <div class="col-sm-5 ">
+                                <label for="email" class="form-label">Email</label>
+                                {{form_utente.email}}
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="telefono" class="form-label">Telefono</label>
+                                {{form_utente.telefono}}
+                            </div>
+                            <div class="d-none">
+                                <input type="number" value="{{volo.id}}" name="id_volo">
+                                <input type="number" value="{{adulti}}" name="adulti">
+                                <input type="text" value="{{scelta}}" name="scelta">
+                        
+                            </div>
                         </div>
+
                     </div>
-                    <div class="row m-3">
-                        <div class="col-sm-5 ">
-                            <label for="email" class="form-label">Email</label>
-                            {{form_utente.email}}
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="telefono" class="form-label">Telefono</label>
-                            {{form_utente.telefono}}
-                        </div>
-                        <div class="d-none">
-                            <input type="number" value="{{volo.id}}" name="id_volo">
-                            <input type="number" value="{{adulti}}" name="adulti">
-                            <input type="text" value="{{scelta}}" name="scelta">
-                        </div>
-                    </div>
-
                 </div>
             </div>
-        </div>
-
+        
+       
         <div class="container m-5">
             <button class="btn btn-primary" type="submit">Avanti</button>
         </div>
 
     </form>
 
+    
 
 
 

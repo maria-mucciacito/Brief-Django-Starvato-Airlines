@@ -84,6 +84,9 @@
                                 style="background-color: #AACFEF;">Seleziona</a>
                         </div>
                     </div>
+                    <div class="row text-center m-2" id="{{volo.id}}">
+                        
+                    </div>
 
                 </div>
             </div>
@@ -126,6 +129,9 @@
                                 style="background-color: #AACFEF;">Seleziona</a>
                         </div>
                     </div>
+                    <div class="row text-center m-2" id="{{fly.id}}">
+                        
+                    </div>
 
                 </div>
             </div>
@@ -137,7 +143,28 @@
 
 
 
+    {% for volo in voli %}
+    <script>
+        
+        let id_volo = '{{volo.id}}';
+        id_volo = parseInt(id_volo);
+        let posti_totali = 0;
+        let paragrafo = document.getElementById('{{volo.id}}');;
+        var API_VOLI = 'http://localhost:8000/apivolo/';
+            fetch(API_VOLI + id_volo)
+                .then(response => response.json())
+                .then(data => {
+                    
+                    posti_totali = data.aircraft.posti_primaclasse + data.aircraft.posti_secondaclasse + data.aircraft.posti_economy;
+                    if(posti_totali == data.posti_prenotati){
+                        paragrafo.innerHTML += '<div class="col-sm-12">Non ci sono più posti disponibili per questo volo!</div>';
+                        
+                    }
+                })
+                .catch(err => console.log(err));
 
+    </script>
+    {% endfor %}
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

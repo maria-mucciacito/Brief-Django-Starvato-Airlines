@@ -134,21 +134,24 @@ def visualizza_voli(request):
 
 
 def seleziona_posto(request,pk,adulti,classe,scelta):
-    volo = Fly.objects.get(id=pk)
-    form_posto = PostoForm()
-    form_utente = UtentForm()
     passegeri = []
     for i in range(1,adulti+1):
         passegeri.append(i)
+    volo = Fly.objects.get(id=pk)
+
+
+    form_posto = PostoForm()
+    form_utente = UtentForm()
+        
     context = {
         'volo': volo,
         'classe': classe,
         'adulti': adulti,
-        'form_posto': form_posto,
+        'form_posto' : form_posto,
         'form_utente': form_utente,
         'passegeri': passegeri,
         'scelta':scelta,
-      
+            
     }
     return render(request, 'sito/postieutente.html', context)
 
@@ -210,6 +213,7 @@ def riepilogo(request):
 def prenota(request):
     context = {}
     if request.method == 'POST':
+        adulti = request.POST.get('adulti', '')
         name = request.POST['name']
         lastname = request.POST['lastname']
         email = request.POST['email']
@@ -219,11 +223,17 @@ def prenota(request):
         classet = request.POST.get('classe', '')
         id_volo = request.POST.get('id_volo', '')
         scelta = request.POST.get('scelta','')
-        adulti = request.POST.get('adulti', '')
+        
+        adulti = int(adulti)
+        passegeri = []
+        for i in range(1,adulti+1):
+            passegeri.append(i)
 
         volo = Fly.objects.get(id=id_volo)
         utente = Utent(name=name, lastname=lastname, email=email, telefono=telefono)
         posto = Posto(lettera=lettera, numero=numero, classe = classet)
+        volo.posti_prenotati += 1
+        volo.save()
         posto.save()
         utente.save()
         prenotazione = Prenotazione(utente=utente, volo=volo, posto=posto)
@@ -236,7 +246,6 @@ def prenota(request):
             [email],
             fail_silently=False,
         ) 
-         
         context = {
             'code_prenotazione' : prenotazione.code_prenotazione,
             'email': email,
@@ -245,7 +254,9 @@ def prenota(request):
             'classe': classet,
             'scelta':scelta,
             'adulti':adulti,
+            'lunghezza_pass': len(passegeri),
         }
+        
     else:
         context['message'] = 'Errore!'
     return render(request, 'sito/pagina_conferma.html', context)
