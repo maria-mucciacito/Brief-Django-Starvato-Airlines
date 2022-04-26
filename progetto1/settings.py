@@ -42,6 +42,7 @@ REST_FRAMEWORK = {
 
 
 INSTALLED_APPS = [
+    "corsheaders",
     'sito.apps.SitoConfig',
     'dashboard.apps.DashboardConfig',
     'django.contrib.admin',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +63,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsPostCsrfMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
+
+#CORS_ALLOWED_ORIGINS = [
+#    "http://localhost:8080",
+#    "http://127.0.0.1:9000",
+#]
+ 
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
 
 ROOT_URLCONF = 'progetto1.urls'
 
@@ -98,7 +119,7 @@ DATABASES_POSTGRESQL = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'prova',
-        'USER': 'postgres',
+        'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'POST': '5432',

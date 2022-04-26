@@ -150,7 +150,7 @@
         id_volo = parseInt(id_volo);
         let posti_totali = 0;
         let paragrafo = document.getElementById('{{volo.id}}');;
-        var API_VOLI = 'http://localhost:8000/apivolo/';
+        var API_VOLI = 'http://192.168.200.140:8000/apivolo/';
             fetch(API_VOLI + id_volo)
                 .then(response => response.json())
                 .then(data => {

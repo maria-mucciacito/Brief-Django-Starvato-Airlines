@@ -31,14 +31,14 @@ class UtentForm(forms.ModelForm):
 
 class PostoForm(forms.ModelForm):
     lettera = forms.CharField(max_length=10, required=False, widget=forms.TextInput(attrs={
-        'class': 'form-control', 'name': 'lettera', 'id': 'lettera'
+        'class': 'form-control', 'name': 'lettera', 'id': 'lettera', 'value':'A'
         }))
     numero = forms.IntegerField(required=False, widget=forms.NumberInput(attrs={
         'class':'form-control', 'name':'numero', 'id': 'numero'
     }))
 
     classe = forms.CharField(max_length=30, required=False, widget=forms.TextInput(attrs={
-        'class': 'form-control', 'name': 'classe', 'id':'classe'
+        'class': 'form-control', 'name': 'classe', 'id':'classe', 'value': 'Economy'
     }))
 
 

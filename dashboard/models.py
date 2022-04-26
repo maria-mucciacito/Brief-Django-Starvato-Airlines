@@ -29,7 +29,7 @@ class Airport(models.Model):
         return self.city
 
 class Posto(models.Model):
-    lettera = models.CharField(max_length=10)
+    lettera = models.CharField(max_length=10, default='A')
     numero = models.IntegerField()
     classe = models.CharField(max_length=30, default='Economy')
     

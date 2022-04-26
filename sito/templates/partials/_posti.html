@@ -40,7 +40,8 @@
         var id_volo = '{{volo.id}}';
         id_volo = parseInt(id_volo);
 
-        var API_PREN = 'http://localhost:8000/apiprenotazione/';
+        var API_PREN = 'http:/192.168.200.140:8000/apiprenotazione/';
+
         fetch(API_PREN)
             .then(response => response.json())
             .then(data => {
@@ -67,7 +68,8 @@
 
 
         function GeneraPosti(id_volo, posti_prenotati) {
-            var API_VOLI = 'http://localhost:8000/apivolo/';
+            //var API_VOLI = 'http://localhost:8000/apivolo/';
+            var API_VOLI = 'http://192.168.200.140:8000/apivolo/';
             fetch(API_VOLI + id_volo)
                 .then(response => response.json())
                 .then(data => {
@@ -130,7 +132,6 @@
             return node;
 
         }
-
         var posti_scelti = [];
         function Scelta(id) {
 
@@ -140,6 +141,9 @@
                 document.getElementById('posto{{passegero}}').innerHTML = id.toString();
                 var classe = document.getElementById(id).name;
                 document.getElementById('classe').value = classe;
+                document.getElementById('avanti').disabled = false;
+                document.getElementById('avanti').classList.remove('opacity-50');
+                
                 if (id.length == 3) {
                     document.getElementById('lettera').value = id.toString().substr(-1);
                     document.getElementById('numero').value = id.toString().substr(0, 2);
@@ -150,6 +154,8 @@
                 }
             }
             else {
+                document.getElementById('avanti').disabled = true;
+                document.getElementById('avanti').classList.add('opacity-50');
                 posti_scelti.pop(id);
                 document.getElementById(id).classList.add('opacity-50');
                 document.getElementById('lettera').value = '';
