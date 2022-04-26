@@ -1,6 +1,7 @@
 
 from contextlib import nullcontext
 from genericpath import exists
+from django.conf import settings
 from django.shortcuts import redirect, render
 from django.template import context
 from django.urls import is_valid_path
@@ -13,6 +14,7 @@ from dashboard.forms import  PostoForm, UtentForm
 from django.core.mail import BadHeaderError, send_mail
 from rest_framework import viewsets
 from .serializers import *
+from progetto1.settings import API_PREN,API_AIR,API_VOLI
 
 #Api rest
 class PrenotazioneApi(viewsets.ModelViewSet):
@@ -51,6 +53,7 @@ def index(request):
     ls_airports = set(Airport.objects.all())
     context = {
         'aeroporti_partenza': ls_airports,
+        'api_air': API_AIR,
     }
 
     return render(request, 'sito/index.html',context)
@@ -126,7 +129,7 @@ def visualizza_voli(request):
                 context['voli_ritorno'] = voli_ritorno
                 context['messager'] = 'Ecco tutti i voli disponibili!'
            
-
+        context['api_volo'] = API_VOLI
     else:
         context['message'] = 'Errore'
     
@@ -151,6 +154,8 @@ def seleziona_posto(request,pk,adulti,classe,scelta):
         'form_utente': form_utente,
         'passegeri': passegeri,
         'scelta':scelta,
+        'api_pren': API_PREN,
+        'api_volo': API_VOLI,
             
     }
     return render(request, 'sito/postieutente.html', context)
@@ -265,7 +270,7 @@ def cancella_prenotazione(request,id):
     context = {}
     prenotazione = Prenotazione.objects.get(id=id)
     if request.method == 'POST':
-        volo = prenotazione.volo.id
+        volo = Fly.objects.get(id=prenotazione.volo.id)
         volo.posti_prenotati -= 1
         volo.save()
         prenotazione.delete()
@@ -276,4 +281,3 @@ def cancella_prenotazione(request,id):
     return render(request,'partials/_delete_prenotazione.html',context)
 
 
-            

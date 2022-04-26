@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -119,7 +120,7 @@ DATABASES_POSTGRESQL = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'prova',
-        'USER': 'root',
+        'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'POST': '5432',
@@ -179,8 +180,14 @@ LOGIN_URL = '/login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = "mucciacitomaria@gmail.com"
+EMAIL_HOST_USER = "starvatoairlines@gmail.com"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = 'maria2002'
+EMAIL_HOST_PASSWORD = 'sviluppo2021'
+
+
+API_IP = socket.gethostbyname(socket.gethostname())
+API_AIR = 'http://'+ API_IP + ':8000' +'/apiaeroporto/'
+API_VOLI = 'http://'+ API_IP + ':8000' +'/apivolo/'
+API_PREN = 'http://'+ API_IP + ':8000' +'/apiprenotazione/'

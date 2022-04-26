@@ -40,7 +40,7 @@
         var id_volo = '{{volo.id}}';
         id_volo = parseInt(id_volo);
 
-        var API_PREN = 'http:/192.168.200.140:8000/apiprenotazione/';
+        var API_PREN = '{{api_pren}}';
 
         fetch(API_PREN)
             .then(response => response.json())
@@ -69,7 +69,7 @@
 
         function GeneraPosti(id_volo, posti_prenotati) {
             //var API_VOLI = 'http://localhost:8000/apivolo/';
-            var API_VOLI = 'http://192.168.200.140:8000/apivolo/';
+            var API_VOLI = '{{api_volo}}';
             fetch(API_VOLI + id_volo)
                 .then(response => response.json())
                 .then(data => {

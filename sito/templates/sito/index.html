@@ -63,9 +63,9 @@
 
 
 
-        //const API_PREN = 'http://localhost:8000/apiaeroporto/';
-        const API_PREN = 'http://192.168.200.140:8000/apiaeroporto/';
-        fetch(API_PREN)
+        const API_AIR = '{{api_air}}';
+        //const API_PREN = 'http://192.168.200.140:8000/apiaeroporto/';
+        fetch(API_AIR)
             .then(response => response.json())
             .then(data => {
                 let options = document.getElementById('datalistOptionsArrivi');
