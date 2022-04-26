@@ -265,6 +265,9 @@ def cancella_prenotazione(request,id):
     context = {}
     prenotazione = Prenotazione.objects.get(id=id)
     if request.method == 'POST':
+        volo = prenotazione.volo.id
+        volo.posti_prenotati -= 1
+        volo.save()
         prenotazione.delete()
         return redirect('/')
     else:
