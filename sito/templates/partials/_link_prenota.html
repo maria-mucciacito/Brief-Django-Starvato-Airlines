@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-sm-3">
                             <label class="form-label" for="dataandata">Data Andata</label>
-                            <input class="form-control" id="dataandata" name="dataandata" type="date" required>
+                            <input class="form-control" id="dataandata" name="dataandata" onchange="Dataritorno()" type="date" required>
                         </div>
                     </div>
                     <div class="row m-3">
@@ -61,7 +61,7 @@
                         </div>
                         <div class="col-sm-3">
                             <label for="adulti" class="form-label">Passeggeri</label>
-                            <input type="number" id="adulti" name="adulti" class="form-control" placeholder="Passegeri"
+                            <input type="number" id="adulti" name="adulti" class="form-control" min="1" max="37" placeholder="Passegeri"
                                 value=1>
                         </div>
                         <div class="col-sm-3 ms-3">
@@ -79,3 +79,11 @@
     </div>
 </div>
 
+
+ <script>
+    document.getElementById('dataandata').min = new Date().toISOString().split('T')[0];
+    document.getElementById('dataritorno').min = document.getElementById('dataandata').value;
+    function Dataritorno(){
+        document.getElementById('dataritorno').min = document.getElementById('dataandata').value;
+    }
+ </script>

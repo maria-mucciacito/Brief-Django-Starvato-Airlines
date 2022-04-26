@@ -91,7 +91,7 @@ def update_volo(request,pk):
             return redirect('/dashboard/voli') 
         else:
             messages.error(request, 'Errore! Form non valido.')
-    context = {'form': form,}
+    context = {'form': form}
     return render(request,'dashboard/update_volo.html', context)
 
 @login_required(login_url='/login/')

@@ -70,12 +70,20 @@ def visualizza_voli(request):
         data_ritorno = request.POST.get('dataritorno','')
         partenza = Airport.objects.get(city=aeroporto_partenza)
         arrivo = Airport.objects.get(city=aeroporto_arrivo)
+        
         if data_ritorno == '':
+            voli_disponibili = []
+            voli = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data_andata) )
+            for volo in voli:
+                posti_disponibili = (volo.aircraft.posti_primaclasse+volo.aircraft.posti_secondaclasse+volo.aircraft.posti_economy)-volo.posti_prenotati
+                if (posti_disponibili >= int(adulti)):
+                    voli_disponibili.append(volo)
 
-            voli = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data_andata))
-            if (len(voli) == 0):
+
+            posti_disponibili = ()
+            if (len(voli_disponibili) == 0):
                 context = {
-                    'voli': voli,
+                    'voli': voli_disponibili,
                     'partenza': aeroporto_partenza,
                     'arrivo' : aeroporto_arrivo,
                     'data_andata' : data_andata,
@@ -86,7 +94,7 @@ def visualizza_voli(request):
                 }
             else:
                 context = {
-                    'voli': voli,
+                    'voli': voli_disponibili,
                     'partenza': aeroporto_partenza,
                     'arrivo' : aeroporto_arrivo,
                     'data_andata' : data_andata,
@@ -96,10 +104,15 @@ def visualizza_voli(request):
                     'message': 'Ecco tutti i voli disponibili!',
                 }
         else:
+            voli_disponibili = []
             voli_andata = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data_andata))
-            if (len(voli_andata) == 0):
+            for volo in voli_andata:
+                posti_disponibili = (volo.aircraft.posti_primaclasse+volo.aircraft.posti_secondaclasse+volo.aircraft.posti_economy)-volo.posti_prenotati
+                if (posti_disponibili >= int(adulti)):
+                    voli_disponibili.append(volo)
+            if (len(voli_disponibili) == 0):
                 context = {
-                    'voli': voli_andata,
+                    'voli': voli_disponibili,
                     'partenza': aeroporto_partenza,
                     'arrivo' : aeroporto_arrivo,
                     'data_andata' : data_andata,
@@ -110,7 +123,7 @@ def visualizza_voli(request):
                 }
             else:
                 context = {
-                    'voli': voli_andata,
+                    'voli': voli_disponibili,
                     'partenza': aeroporto_partenza,
                     'arrivo' : aeroporto_arrivo,
                     'data_andata' : data_andata,
@@ -120,9 +133,14 @@ def visualizza_voli(request):
                     'message': 'Ecco tutti i voli disponibili!',
                 }
                 
+            voli_disponibil_r = []
             voli_ritorno = Fly.objects.filter(Q(aeroporto_partenza=arrivo.id) & Q(aeroporto_arrivo=partenza.id) & Q(data_partenza=data_ritorno))
-            if (len(voli_ritorno) == 0):
-                context['voli_ritorno'] = voli_ritorno
+            for volo in voli_ritorno:
+                posti_disponibili = (volo.aircraft.posti_primaclasse+volo.aircraft.posti_secondaclasse+volo.aircraft.posti_economy)-volo.posti_prenotati
+                if (posti_disponibili >= int(adulti)):
+                    voli_disponibil_r.append(volo)
+            if (len(voli_disponibil_r) == 0):
+                context['voli_ritorno'] = voli_disponibil_r
                 context['messager'] = 'Non ci sono voli disponibili!'
     
             else:
