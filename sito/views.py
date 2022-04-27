@@ -188,7 +188,7 @@ def cerca_prenotazione(request):
                 'prenotazione': prenotazione,
                 'message': 'Ecco tutti i dettagli della tua prenotazione!',
             }
-        except:
+        except:       
             context['message']= 'Non ci sono prenotazioni per questo codice!'
         
     else:
@@ -295,7 +295,7 @@ def cancella_prenotazione(request,id):
             'Disdetta Prenotazione' + prenotazione.code_prenotazione + ' Starvato Airlines',
             'Gentile cliente la informiamo che la sua prenotazione è stata disetta, come da lei richiesto.',
             'starvatoairlines@gmail.com',
-            [email],
+            [prenotazione.utente.email],
             fail_silently=False,
         ) 
         return redirect('/')

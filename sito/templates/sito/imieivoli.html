@@ -121,10 +121,13 @@
         </div>
     </div>
 
+    {% if message == 'Ecco tutti i dettagli della tua prenotazione!' %}
+
     <div class="container m-5">
         <a href="{% url 'cancella_prenotazione' prenotazione.id %}" class="btn btn-danger">Elimina</a>
  
     </div>
+    {%endif%}
     
 </body>
 </html>

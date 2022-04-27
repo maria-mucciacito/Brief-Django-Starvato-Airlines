@@ -36,6 +36,7 @@
                     <th scope="col">Aeroporto di Partenza</th>
                     <th scope="col">Aeroporto di Arrivo</th>
                     <th scope="col">Aircraft</th>
+                    <th scope="col">Posti Prenotati</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +52,7 @@
                     <td>{{volo.aeroporto_partenza}}</td>
                     <td>{{volo.aeroporto_arrivo}}</td>
                     <td>{{volo.aircraft}}</td>
+                    <td>{{volo.posti_prenotati}}</td>
                     <td>
                         <a href="{% url 'update_volo' volo.id %}" class="btn btn-light btn-sm">Update</a>
                     </td>

@@ -119,7 +119,7 @@ DATABASES_SQLITE = {
 DATABASES_POSTGRESQL = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'prova',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
@@ -179,12 +179,19 @@ LOGIN_URL = '/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+'''EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST_USER = "starvatoairlines@gmail.com"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = 'sviluppo2021'
+'''
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'b7ee970f358218'
+EMAIL_HOST_PASSWORD = '96ebffb5eacdec'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = False
 
 
 API_IP = socket.gethostbyname(socket.gethostname())
