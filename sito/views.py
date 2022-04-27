@@ -70,7 +70,6 @@ def visualizza_voli(request):
         data_ritorno = request.POST.get('dataritorno','')
         partenza = Airport.objects.get(city=aeroporto_partenza)
         arrivo = Airport.objects.get(city=aeroporto_arrivo)
-        
         if data_ritorno == '':
             voli_disponibili = []
             voli = Fly.objects.filter(Q(aeroporto_partenza=partenza.id) & Q(aeroporto_arrivo=arrivo.id) & Q(data_partenza=data_andata) )
@@ -265,7 +264,7 @@ def prenota(request):
             'Conferma Prenotazione Starvato Airlines',
             'Gentile cliente la informiamo che la sua prenotazione è andata a buon fine. Le auguriamo buon viaggio! Cordiali saluti'+
             'Di seguito il codice della sua prenotazione : ' + prenotazione.code_prenotazione,
-            'mucciacitomaria@gmail.com',
+            'starvatoairlines@gmail.com',
             [email],
             fail_silently=False,
         ) 
@@ -292,6 +291,13 @@ def cancella_prenotazione(request,id):
         volo.posti_prenotati -= 1
         volo.save()
         prenotazione.delete()
+        send_mail(
+            'Disdetta Prenotazione' + prenotazione.code_prenotazione + ' Starvato Airlines',
+            'Gentile cliente la informiamo che la sua prenotazione è stata disetta, come da lei richiesto.',
+            'starvatoairlines@gmail.com',
+            [email],
+            fail_silently=False,
+        ) 
         return redirect('/')
     else:
         context['message'] = 'Errore'

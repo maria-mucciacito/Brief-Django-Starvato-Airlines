@@ -42,14 +42,14 @@
             <p class="d-none">
                 <input type="number" name="adulti" value="{{adulti}}">
                 <input type="text" name="scelta" value="Solo Andata">
-                <input type="text" name="partenze" value="{{volo.aeroporto_arrivo}}">
-                <input type="text" name="arrivi" value="{{volo.aeroporto_partenza}}">
+                <input type="text" name="partenze" value="{{volo.aeroporto_arrivo.city}}">
+                <input type="text" name="arrivi" value="{{volo.aeroporto_partenza.city}}">
                 <input type="text" name="classe" value="{{classe}}">
 
             </p>
             <div class="row my-3">
                 <div class="col-sm-6 me-0 d-flex justify-content-end mb-5">
-                    <input type="date" name="dataandata" class="form-control" style="width: 300px;">
+                    <input type="date" name="dataandata" class="form-control" style="width: 300px;" required>
                 </div>
                 <div class="col-sm-2 mb-5 ms-0">
 

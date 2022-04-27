@@ -35,7 +35,7 @@ class Posto(models.Model):
     
 
     def __str__(self):
-        return self.lettera
+        return self.lettera + str(self.numero)
     
 class Fly(models.Model):
     code_volo = models.CharField(max_length=200, unique=True)
@@ -90,7 +90,7 @@ class Manutenzione(models.Model):
     aircraft = models.ForeignKey('Aircraft', on_delete=models.SET_NULL, null=True, )
 
     def __str__(self):
-        return  self.ultima_manutenzione
+        return  self.id
 
 class Utent(models.Model):
     name = models.CharField(max_length=100)
@@ -98,7 +98,7 @@ class Utent(models.Model):
     email = models.EmailField(max_length=254)
     telefono = models.CharField(max_length=40)
     def __str__(self):
-        return  self.lastname
+        return  self.lastname + self.name
 
 class Prenotazione(models.Model):
     code_prenotazione = models.CharField(max_length=200, unique=True, default = make_uuid, editable = False)
