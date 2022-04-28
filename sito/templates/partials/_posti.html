@@ -135,7 +135,7 @@
         var posti_scelti = [];
         function Scelta(id) {
 
-            if (document.getElementById(id).classList.contains('opacity-50')) {
+            if (document.getElementById(id).classList.contains('opacity-50') && posti_scelti.length== 0) {
                 posti_scelti.push(id);
                 document.getElementById(id).classList.remove('opacity-50');
                 document.getElementById('posto{{passegero}}').innerHTML = id.toString();
