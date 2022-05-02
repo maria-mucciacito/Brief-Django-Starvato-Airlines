@@ -195,6 +195,7 @@ EMAIL_USE_TLS = False
 
 
 API_IP = socket.gethostbyname(socket.gethostname())
+API_IP = '192.168.200.140'
 API_AIR = 'http://'+ API_IP + ':8000' +'/apiaeroporto/'
 API_VOLI = 'http://'+ API_IP + ':8000' +'/apivolo/'
 API_PREN = 'http://'+ API_IP + ':8000' +'/apiprenotazione/'

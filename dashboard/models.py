@@ -98,7 +98,7 @@ class Utent(models.Model):
     email = models.EmailField(max_length=254)
     telefono = models.CharField(max_length=40)
     def __str__(self):
-        return  self.lastname + self.name
+        return  self.lastname + ' ' +self.name
 
 class Prenotazione(models.Model):
     code_prenotazione = models.CharField(max_length=200, unique=True, default = make_uuid, editable = False)
